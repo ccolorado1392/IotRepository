@@ -13,6 +13,7 @@ rdata mens tipo valor
 inc ite
 if (ite >= 1000)
         cprint "Llego a 1000 envios sensor: " id
+        cprint "Para el sensor en iteracion: " ite
 	stop
 end
 
@@ -43,6 +44,7 @@ end
 
 battery bat
 if(bat<5)
+        cprint "Para el sensor en iteracion: " ite
 	data mens "critico" lonSen latSen
 	send mens ant
 end
