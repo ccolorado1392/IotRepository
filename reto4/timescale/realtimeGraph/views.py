@@ -743,11 +743,11 @@ def get_average_station(request, **kwargs):
     print(data_by_station[0])
 
     min_val = data_by_station.aggregate(
-        Min('values'))['value__min']
+        Min('value__min'))
     max_val = data_by_station.aggregate(
-        Max('values'))['value__max']
+        Max('value__min'))
     avg_val = data_by_station.aggregate(
-        Avg('values'))['value__avg']
+        Avg('value__avg'))
 
     station_data.append({
         'min': min_val if min_val != None else 0,
