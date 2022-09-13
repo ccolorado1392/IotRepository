@@ -585,6 +585,84 @@ def get_map_json(request, **kwargs):
 
     return JsonResponse(data_result)
 
+def get_average_station(request, **kwargs):
+
+    station_param = kwargs.get("id_station", None)
+    measure_param = kwargs.get("measure", None)
+    station_data= []
+
+    if station_param == None or measure_param == None:
+        return JsonResponse({"error":"No se porporcionó un id estacion o medida"})
+    try:
+        selected_measure = Measurement.objects.filter(name=measure_param)[0]
+    except IndexError:
+        measurements = Measurement.objects.all()
+        return JsonResponse({"error":"No se porporcionó una medida correcta", "measurements":[measure.name for measure in measurements]})
+    try:
+        start = datetime.fromtimestamp(
+            float(request.GET.get("from", None)) / 1000
+        )
+    except Exception:
+        start = None
+    try:
+        end = datetime.fromtimestamp(
+            float(request.GET.get("to", None)) / 1000)
+    except Exception:
+        end = None
+
+    if start == None and end == None:
+        start = datetime.now()
+        start = start - dateutil.relativedelta.relativedelta(months=14)
+        end = datetime.now()
+        end += dateutil.relativedelta.relativedelta(days=1)
+    elif end == None:
+        end = datetime.now()
+    elif start == None:
+        start = datetime.fromtimestamp(0)
+
+    start_formatted = start.strftime("%d/%m/%Y %H:%M:%S") if start != None else " "
+    end_formatted = end.strftime("%d/%m/%Y %H:%M:%S") if end != None else " "
+    data_result = {}
+    
+    data_result["start"] = start_formatted
+    data_result["end"] = end_formatted
+    data_result["data"] = station_data
+
+    
+    print("user_param ",station_param)
+    print("measure_param ",measure_param)
+
+    start_ts = int(start.timestamp() * 1000000)
+    end_ts = int(end.timestamp() * 1000000)
+
+    data_by_station = Data.objects.filter(
+        station_id = station_param, measurementname = selected_measure.name,  timegte=start, time_lte=end)
+    try:
+        location = data_by_station[0].station.location
+    except IndexError:
+        return JsonResponse(data_result)
+
+
+    data_result["city"] = {
+        "lat":location.lat,
+        "lng":location.lng,
+        'description': f'{location.city.name}, {location.state.name}, {location.country.name}'
+    }
+
+    min_val = data_by_station.aggregate(
+        Min('value'))['value__min']
+    max_val = data_by_station.aggregate(
+        Max('value'))['value__max']
+    avg_val = data_by_station.aggregate(
+        Avg('value'))['value__avg']
+
+    station_data.append({
+        'min': min_val if min_val != None else 0,
+        'max': max_val if max_val != None else 0,
+        'avg': round(avg_val if avg_val != None else 0, 2),
+    })
+
+    return JsonResponse(data_result)
 
 def download_csv_data(request):
     print("Getting time for csv req")
