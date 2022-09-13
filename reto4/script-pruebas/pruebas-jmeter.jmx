@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.3">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Pruebas de carga" enabled="true">
-      <stringProp name="TestPlan.comments"></stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Pruebas de carga - Reto 4" enabled="true">
+      <stringProp name="TestPlan.comments">Alejandro Colorado - Yesid Tombe</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
@@ -16,13 +16,13 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="ip_postgres" elementType="Argument">
             <stringProp name="Argument.name">ip_postgres</stringProp>
-            <stringProp name="Argument.value">54.161.18.11</stringProp>
+            <stringProp name="Argument.value">44.198.166.198</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">Dirección IP pública de la máquina EC2 con el servidor de postgres</stringProp>
           </elementProp>
           <elementProp name="ip_timescale" elementType="Argument">
             <stringProp name="Argument.name">ip_timescale</stringProp>
-            <stringProp name="Argument.value">3.92.4.184</stringProp>
+            <stringProp name="Argument.value">34.239.94.103</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
             <stringProp name="Argument.desc">Dirección IP pública de la máquina EC2 con el servidor de timescale</stringProp>
           </elementProp>
@@ -34,11 +34,11 @@
           </elementProp>
           <elementProp name="consulta_url" elementType="Argument">
             <stringProp name="Argument.name">consulta_url</stringProp>
-            <stringProp name="Argument.value">/rema/Temperatura?from=1625115600000&amp;to=1627793999999</stringProp>
+            <stringProp name="Argument.value">/station/average/1/Temperatura?from=1624165200000&amp;to=1626332391000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
-        <stringProp name="TestPlan.comments">Editar según los datos de su despliegue</stringProp>
+        <stringProp name="TestPlan.comments">Datos editados segun nuestro despliegue</stringProp>
       </Arguments>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Postgres" enabled="true">
