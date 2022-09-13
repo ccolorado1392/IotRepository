@@ -636,7 +636,7 @@ def get_average_station(request, **kwargs):
     end_ts = int(end.timestamp() * 1000000)
 
     data_by_station = Data.objects.filter(
-        station_id = station_param, measurement_id = selected_measure.id,  timegte=start, time_lte=end)
+        station_id = station_param, measurement_id = selected_measure.id,  time__gte=start.date(), time__lte=end.date())
     try:
         location = data_by_station[0].station.location
     except IndexError:
