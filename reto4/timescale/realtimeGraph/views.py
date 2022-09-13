@@ -734,12 +734,13 @@ def get_average_station(request, **kwargs):
     except IndexError:
         return JsonResponse(data_result)
 
-
     data_result["city"] = {
         "lat":location.lat,
         "lng":location.lng,
         'description': f'{location.city.name}, {location.state.name}, {location.country.name}'
     }
+
+    print(data_by_station[0])
 
     min_val = data_by_station.aggregate(
         Min('value'))['value__min']
