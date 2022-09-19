@@ -7,8 +7,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         monitor.setup_mqtt()
-        Thread(target = monitor.start_cron_warning()).start()
-        Thread(target = monitor.start_cron_alert()).start()
+        monitor.start_cron_alert()        
         
         
        
