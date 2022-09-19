@@ -16,46 +16,46 @@ def analyze_warning():
     # Compara el promedio con los valores límite que están en la base de datos para esa variable.
     # Si el promedio se excede de los límites + 5 o -  se envia un mensaje de Warning.
 
-    print("Calculando Healt Check de ...")
+    print("Calculando Warning...")
 
-    data = Data.objects.filter(
-        base_time__gte=datetime.now() - timedelta(minutes=10))
-    aggregation = data.annotate(check_value=Avg('avg_value')) \
-        .select_related('station', 'measurement') \
-        .select_related('station__user', 'station__location') \
-        .select_related('station__location__city', 'station__location__state',
-                        'station__location__country') \
-        .values('check_value', 'station__user__username',
-                'measurement__name',
-                'measurement__max_value',
-                'measurement__min_value',
-                'station__location__city__name',
-                'station__location__state__name',
-                'station__location__country__name')
-    alerts = 0
+    # data = Data.objects.filter(
+    #     base_time__gte=datetime.now() - timedelta(minutes=10))
+    # aggregation = data.annotate(check_value=Avg('avg_value')) \
+    #     .select_related('station', 'measurement') \
+    #     .select_related('station__user', 'station__location') \
+    #     .select_related('station__location__city', 'station__location__state',
+    #                     'station__location__country') \
+    #     .values('check_value', 'station__user__username',
+    #             'measurement__name',
+    #             'measurement__max_value',
+    #             'measurement__min_value',
+    #             'station__location__city__name',
+    #             'station__location__state__name',
+    #             'station__location__country__name')
+    # alerts = 0
 
-    for item in aggregation:
-        alert = False
+    # for item in aggregation:
+    #     alert = False
 
-        variable = item["measurement__name"]
-        max_value = item["measurement__max_value"] or 0
-        min_value = item["measurement__min_value"] or 0
+    #     variable = item["measurement__name"]
+    #     max_value = item["measurement__max_value"] or 0
+    #     min_value = item["measurement__min_value"] or 0
 
-        country = item['station__location__country__name']
-        state = item['station__location__state__name']
-        city = item['station__location__city__name']
-        user = item['station__user__username']
+    #     country = item['station__location__country__name']
+    #     state = item['station__location__state__name']
+    #     city = item['station__location__city__name']
+    #     user = item['station__user__username']
 
-        # if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
-        #         alert = True
-        alert = True
+    #     # if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
+    #     #         alert = True
+    alert = True
 
-        if alert:
-            message = "WARNING {} {} {}".format(variable, min_value, max_value)
-            topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
-            print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
-            client.publish(topic, message)
-            alerts += 1
+    if alert:
+        message = "WARNING {} {} {}".format(variable, min_value, max_value)
+        topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
+        print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
+        client.publish(topic, message)
+        alerts += 1
 
     print(len(aggregation), "dispositivos revisados")
     print(alerts, "alertas enviadas")
@@ -152,10 +152,11 @@ def setup_mqtt():
 
 def start_cron_alert():
     '''
-    Inicia el cron que se encarga de ejecutar la función analyze_data cada 5 minutos.
+    Inicia el cron que se encarga de ejecutar la función analyze_data cada 5 minutos y analyze_warning cada minuto.
     '''
     print("Iniciando cron analyze_data...")
     schedule.every(5).minutes.do(analyze_data)
+    print("Iniciando cron analyze_warning...")
     schedule.every(1).minutes.do(analyze_warning)
     print("Servicio de control iniciado")
     while 1:
