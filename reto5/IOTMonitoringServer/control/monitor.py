@@ -48,15 +48,15 @@ def analyze_warning():
 
         # if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
         #         alert = True
-        
-    alert = True
 
-    if alert:
-        message = "WARNING {} {} {}".format(variable, min_value, max_value)
-        topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
-        print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
-        client.publish(topic, message)
-        alerts += 1
+        alert = True
+
+        if alert:
+            message = "WARNING {} {} {}".format(variable, min_value, max_value)
+            topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
+            print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
+            client.publish(topic, message)
+            alerts += 1
 
     print(len(aggregation), "dispositivos revisados")
     print(alerts, "alertas enviadas")
