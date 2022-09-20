@@ -161,7 +161,7 @@ def start_cron_alert():
     '''
 
     print("Iniciando cron analyze_warning...")
-    schedule.every(1).minutes.do(analyze_warning)
+    schedule.every(15).seconds.do(analyze_warning)
     
     print("Iniciando cron analyze_data...")
     schedule.every(5).minutes.do(analyze_data)
