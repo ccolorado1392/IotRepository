@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-bu+)8ft@9+qd*#e#f_s@wkyv2tmq+#!a^3j15h3kjk^jzksu0j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "35.174.242.92"]
+ALLOWED_HOSTS = ["localhost", "35.174.242.92/"]
 
 
 # Application definition
@@ -161,8 +161,8 @@ MQTT_HOST = "3.92.19.66"
 MQTT_PORT = 8082
 
 # Credenciales para el usuario suscriptor del bróker MQTT
-MQTT_USER = "admin2"
-MQTT_PASSWORD = "admin2"
+MQTT_USER = "admin"
+MQTT_PASSWORD = "admin"
 
 # Credenciales para el usuario publicador del bróker MQTT
 MQTT_USER_PUB = "admin2"
