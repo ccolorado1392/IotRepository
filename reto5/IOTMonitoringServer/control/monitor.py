@@ -33,9 +33,9 @@ def analyze_warning():
                 'station__location__state__name',
                 'station__location__country__name')
     alerts = 0
-
+    alert = True
     for item in aggregation:
-        alert = True
+        
 
         variable = item["measurement__name"]
         max_value = item["measurement__max_value"] or 0
