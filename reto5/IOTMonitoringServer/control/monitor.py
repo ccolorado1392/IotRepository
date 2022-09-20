@@ -52,7 +52,7 @@ def analyze_warning():
         if alert:
             message = "WARNING {} {} {}".format(variable, min_value, max_value)
             topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
-            print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
+            print(datetime.now(), "Sending warning to {} {}".format(topic, variable))
             client.publish(topic, message)
             alerts += 1
 
