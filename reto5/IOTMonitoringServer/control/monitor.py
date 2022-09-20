@@ -33,9 +33,9 @@ def analyze_warning():
                 'station__location__state__name',
                 'station__location__country__name')
     alerts = 0
-    alert = True
+   
     for item in aggregation:
-        
+        alert = False
 
         variable = item["measurement__name"]
         max_value = item["measurement__max_value"] or 0
@@ -46,21 +46,15 @@ def analyze_warning():
         city = item['station__location__city__name']
         user = item['station__user__username']
 
-        # if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
-        #         alert = True
+        if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
+            alert = True
 
-    if alert:
-        message = "WARNING {} {} {}".format("humedad", 12, 20)
-        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "user1")
-        print(datetime.now(), "Sending warning to {} {}".format(topic, "humedad"))
-        client.publish(topic, message)
-        alerts += 1
-
-        message = "WARNING {} {} {}".format("temperatura", 12, 20)
-        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "user1")
-        print(datetime.now(), "Sending warning to {} {}".format(topic, "temperatura"))
-        client.publish(topic, message)
-        alerts += 1
+            if alert:
+                message = "ALERT {} {} {}".format(variable, min_value, max_value)
+                topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
+                print(datetime.now(), "Sending warning to {} {}".format(topic, variable))
+                client.publish(topic, message)
+                alerts += 1   
 
     print(len(aggregation), "dispositivos revisados")
     print(alerts, "alertas enviadas")
