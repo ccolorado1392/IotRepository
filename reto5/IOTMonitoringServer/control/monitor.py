@@ -56,6 +56,12 @@ def analyze_warning():
         client.publish(topic, message)
         alerts += 1
 
+        message = "WARNING {} {} {}".format("temperatura", 12, 20)
+        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "user1")
+        print(datetime.now(), "Sending warning to {} {}".format(topic, "temperatura"))
+        client.publish(topic, message)
+        alerts += 1
+
     print(len(aggregation), "dispositivos revisados")
     print(alerts, "alertas enviadas")
 
