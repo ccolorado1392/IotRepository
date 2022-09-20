@@ -50,9 +50,9 @@ def analyze_warning():
         #         alert = True
 
     if alert:
-        message = "WARNING {} {} {}".format("user1", 12, 20)
+        message = "WARNING {} {} {}".format("humedad", 12, 20)
         topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "user1")
-        print(datetime.now(), "Sending warning to {} {}".format(topic, variable))
+        print(datetime.now(), "Sending warning to {} {}".format(topic, "humedad"))
         client.publish(topic, message)
         alerts += 1
 
