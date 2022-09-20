@@ -51,13 +51,13 @@ def analyze_warning():
 
     if alert:
         message = "WARNING {} {} {}".format("humedad", 12, 20)
-        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "user1")
+        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "ironman")
         print(datetime.now(), "Sending warning to {} {}".format(topic, "humedad"))
         client.publish(topic, message)
         alerts += 1
 
         message = "WARNING {} {} {}".format("temperatura", 12, 20)
-        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "user1")
+        topic = '{}/{}/{}/{}/in'.format("colombia", "cundinamarca", "bogota", "ironman")
         print(datetime.now(), "Sending warning to {} {}".format(topic, "temperatura"))
         client.publish(topic, message)
         alerts += 1
@@ -126,6 +126,7 @@ def on_disconnect(client: mqtt.Client, userdata, rc):
     Función que se ejecuta cuando se desconecta del broker.
     Intenta reconectar al bróker.
     '''
+
     print("Desconectado con mensaje:" + str(mqtt.connack_string(rc)))
     print("Reconectando...")
     client.reconnect()
