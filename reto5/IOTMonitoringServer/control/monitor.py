@@ -35,7 +35,7 @@ def analyze_warning():
     alerts = 0
 
     for item in aggregation:
-        alert = False
+        alert = True
 
         variable = item["measurement__name"]
         max_value = item["measurement__max_value"] or 0
@@ -46,8 +46,8 @@ def analyze_warning():
         city = item['station__location__city__name']
         user = item['station__user__username']
 
-        if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
-                alert = True
+        # if item["check_value"] > (max_value - 5) or item["check_value"] < (min_value + 5):
+        #         alert = True
 
         if alert:
             message = "WARNING {} {} {}".format(variable, min_value, max_value)
